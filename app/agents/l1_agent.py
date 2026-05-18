@@ -84,7 +84,7 @@ async def run(message: str, conversation_history: list[dict] = None) -> AgentRes
 
     response = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=1024,
+        max_tokens=4096,
         system=system,
         tools=TOOLS,
         messages=messages,

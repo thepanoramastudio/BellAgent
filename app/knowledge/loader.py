@@ -5,8 +5,8 @@ logger = logging.getLogger(__name__)
 
 KB_DIR = Path(__file__).parent.parent.parent / "knowledge_base"
 
-MAX_CHARS_PER_FILE = 4000   # limit per file to avoid overflowing context
-MAX_TOTAL_CHARS = 60000     # total knowledge base size cap
+MAX_CHARS_PER_FILE = 2000   # limit per file to avoid overflowing context
+MAX_TOTAL_CHARS = 30000     # total knowledge base size cap
 
 
 def _read_pdf(path: Path) -> str:
