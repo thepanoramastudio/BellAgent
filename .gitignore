@@ -3,5 +3,3 @@ venv/
 __pycache__/
 *.pyc
 .DS_Store
-knowledge_base/*.pdf
-knowledge_base/*.xlsx
