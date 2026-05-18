@@ -25,8 +25,11 @@ ESCALATION_TEAM = {
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await odoo.authenticate()
-    logger.info("Odoo session authenticated")
+    try:
+        await odoo.authenticate()
+        logger.info("Odoo session authenticated")
+    except Exception as e:
+        logger.warning(f"Odoo auth skipped at startup: {e} — will retry on first request")
     yield
     await odoo.close()
 
