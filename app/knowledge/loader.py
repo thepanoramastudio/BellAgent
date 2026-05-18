@@ -5,8 +5,8 @@ logger = logging.getLogger(__name__)
 
 KB_DIR = Path(__file__).parent.parent.parent / "knowledge_base"
 
-MAX_CHARS_PER_FILE = 6000   # limit per file to avoid overflowing context
-MAX_TOTAL_CHARS = 80000     # total knowledge base size cap
+MAX_CHARS_PER_FILE = 20000  # limit per file
+MAX_TOTAL_CHARS = 150000    # total knowledge base size cap (~37k tokens, well within 200k limit)
 
 
 def _read_pdf(path: Path) -> str:
@@ -68,12 +68,25 @@ def load_knowledge_base() -> str:
     chunks = []
     total_chars = 0
 
-    # Priority order: FAQ and manuals first, training slides last
-    PRIORITY = ["faq", "sample", "user manual", "web backend", "service catalog",
-                "สร้างร้าน", "serial", "aftersale", "falcon", "swan",
-                "product introduction", "cs transfer"]
+    # Priority: core manuals first, training/transfer slides last
+    PRIORITY = [
+        "faq",                   # FAQ — highest priority
+        "sample",                # sample_faq.md
+        "service catalog",       # issue resolution guide
+        "user manual",           # WePOS user manual
+        "web backend",           # web backend guide
+        "สร้างร้าน",              # new store setup
+        "serial",                # serial number check
+        "aftersale",             # after-sales support
+        "falcon",                # iMIN Falcon installation
+        "swan",                  # iMIN Swan installation
+        "product introduction",  # product overview
+        "cs transfer",           # training slides — lowest priority
+    ]
 
     def sort_key(p):
+        if not p.stat().st_size:  # skip empty files
+            return 999
         name = p.name.lower()
         for i, keyword in enumerate(PRIORITY):
             if keyword in name:
