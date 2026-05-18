@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     odoo_helpdesk_team_id: int = 1
 
     anthropic_api_key: str
+    google_api_key: str
 
     class Config:
         env_file = ".env"

@@ -1,8 +1,10 @@
 import anthropic
 from app.config import settings
-from app.knowledge.loader import load_knowledge_base
+from app.knowledge import gemini_rag
 
 client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+
+gemini_rag.init(settings.google_api_key)
 
 TOOLS = [
     {
@@ -130,8 +132,8 @@ class AgentResult:
 
 
 async def run(message: str, conversation_history: list[dict] = None) -> AgentResult:
-    knowledge_base = load_knowledge_base()
-    system = SYSTEM_PROMPT.format(knowledge_base=knowledge_base or "No documents loaded yet.")
+    knowledge_base = await gemini_rag.search(message)
+    system = SYSTEM_PROMPT.format(knowledge_base=knowledge_base or "No relevant information found in knowledge base.")
 
     messages = conversation_history or []
     messages = messages + [{"role": "user", "content": message}]

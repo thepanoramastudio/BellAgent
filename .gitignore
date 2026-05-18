@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 .DS_Store
 tools/__pycache__/
+knowledge_base/*.pdf
+knowledge_base/*.PDF
