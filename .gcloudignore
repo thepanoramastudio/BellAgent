@@ -1,12 +1,16 @@
+.gcloudignore
+.git/
+.gitignore
+.dockerignore
+.claude/
 .env
 venv/
-.git/
-.claude/
 __pycache__/
 **/__pycache__/
 *.pyc
 .DS_Store
-.gitignore
+
+# Dockerfile only needs the app plus PDF knowledge-base files.
 knowledge_base/*.md
 knowledge_base/*.txt
 knowledge_base/*.xlsx
